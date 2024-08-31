@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { IoAddSharp, IoSearch, IoCloseSharp } from "react-icons/io5";
+import pic from "./assets/pic02.png"
 import { MdDelete } from "react-icons/md";
 import "./App.css";
 
@@ -142,6 +143,9 @@ function App() {
 
   return (
     <div className="main-container">
+      <div className="pic-container">
+        <img src={pic} alt="" />
+      </div>
       <h1 className="wed-plan">Wedding Guests</h1>
       <div className="input-container">
         <IoSearch type="button" className="addBtn" onClick={handleSearch} />
