@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { IoAddSharp, IoSearch, IoCloseSharp } from "react-icons/io5";
-import pic from "./assets/pic02.png"
+import pic from "./assets/pic02.png";
 import { MdDelete } from "react-icons/md";
 import "./App.css";
 
@@ -32,8 +32,8 @@ function App() {
   const [guestName, setGuestName] = useState("");
   const tableRef = useRef(null);
   const selectRef = useRef();
-  const [openSearch, setOpenSearch]=useState(false)
-  const [search, setSearch] = useState([])
+  const [openSearch, setOpenSearch] = useState(false);
+  const [search, setSearch] = useState([]);
 
   const handleInput = (e) => {
     setGuestName(e.target.value);
@@ -50,7 +50,7 @@ function App() {
       tableNumber <= 0
     ) {
       alert("Les données ne sont pas bonnes");
-      return setGuestList((prev)=> [...prev ]);
+      return setGuestList((prev) => [...prev]);
     }
 
     const guestObject = {
@@ -63,10 +63,9 @@ function App() {
     setGuestList((prev) => [...prev, guestObject]);
     setThetotal((prevTotal) => prevTotal + 1);
 
- 
     setGuestName("");
-    setOpenSearch(false)
-    setOpenTable(false)
+    setOpenSearch(false);
+    setOpenTable(false);
     tableRef.current.value = "";
   };
 
@@ -92,7 +91,7 @@ function App() {
     setGuestList(deleteEl);
     setThetotal((prev) => prev - 1);
     setPresent((prev) => prev - 1);
-    setOpenSearch(false)
+    setOpenSearch(false);
   };
 
   const clearLocalStorage = () => {
@@ -121,15 +120,15 @@ function App() {
 
   const handleSearch = () => {
     if (guestName.trim() !== "") {
-      setOpenSearch(true)
+      setOpenSearch(true);
       const searchGuest = guestList.filter((guest) =>
         guest.theGuest.toLowerCase().includes(guestName.toLowerCase())
       );
       setSearch(searchGuest);
     }
 
-    setGuestName("")
-    console.log("kirikou")
+    setGuestName("");
+    console.log("kirikou");
   };
 
   const handleCloseEl = () => {
@@ -137,10 +136,10 @@ function App() {
     selectRef.current.value = "0";
   };
 
-  const searchCloseEl = ()=>{
-    setOpenSearch(false)
-    setGuestName("")
-  }
+  const searchCloseEl = () => {
+    setOpenSearch(false);
+    setGuestName("");
+  };
 
   return (
     <div className="main-container">
@@ -200,6 +199,14 @@ function App() {
           <option value="5">Table 05</option>
           <option value="6">Table 06</option>
           <option value="7">Table 07</option>
+          <option value="8">Table 08</option>
+          <option value="9">Table 09</option>
+          <option value="10">Table 10</option>
+          <option value="11">Table 11</option>
+          <option value="12">Table 12</option>
+          <option value="13">Table 13</option>
+          <option value="14">Table 14</option>
+          <option value="15">Table 15</option>
         </select>
       </div>
 
@@ -254,37 +261,34 @@ function App() {
           </div>
         )}
 
-
-{openSearch && (
-  <div className="filter-result">
-    <div className="closeBtn-container">
-      Guest found 
-      <IoCloseSharp className="closeBtn" onClick={searchCloseEl} />
-    </div>
-    {search.map((guest) => (
-      <div key={guest.id} className="theGuest">
-        <div className="name-container">
-          <input
-            type="checkbox"
-            className="box"
-            checked={guest.checked}
-            onChange={() => toggleCheck(guest.id)}
-          />
-          <p>{guest.theGuest}</p>
-        </div>
-        <p>Table: {guest.table}</p>
-        <MdDelete
-          className="deletBtn"
-          onClick={() => {
-            handleDelete(guest.id);
-          }}
-        />
-      </div>
-    ))}
-  </div>
-)}
-
-        
+        {openSearch && (
+          <div className="filter-result">
+            <div className="closeBtn-container">
+              Guest found
+              <IoCloseSharp className="closeBtn" onClick={searchCloseEl} />
+            </div>
+            {search.map((guest) => (
+              <div key={guest.id} className="theGuest">
+                <div className="name-container">
+                  <input
+                    type="checkbox"
+                    className="box"
+                    checked={guest.checked}
+                    onChange={() => toggleCheck(guest.id)}
+                  />
+                  <p>{guest.theGuest}</p>
+                </div>
+                <p>Table: {guest.table}</p>
+                <MdDelete
+                  className="deletBtn"
+                  onClick={() => {
+                    handleDelete(guest.id);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
