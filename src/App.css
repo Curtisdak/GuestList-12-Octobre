@@ -1,5 +1,6 @@
 #root {
   width: 100vw;
+ 
   margin: 0 auto;
   text-align: center;
   /* background-color: var(--secondary-color); */
@@ -11,7 +12,7 @@
   font-style: normal;
   font-size: larger;
 
-  min-height: 100vh;
+  min-height: 50vh;
   padding: 0px;
   display: flex;
   flex-direction: column;
@@ -29,8 +30,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  min-width: 100%;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
   margin: 0;
   /* background-color: var(--primary-color); */
 }
@@ -40,17 +41,18 @@
   top: 0;
   left: 0;
   width:100%;
-  min-height: 100%;
+  height: 100%;
   z-index: -1;
   background-color: black;
 }
+
 .pic-container img {
   width: 100%;
   height: 100%;
   object-fit:cover;
-  background-size: cover;
-  filter: blur(5px);
-  opacity: .7;
+  /* background-size: contain; */
+  filter: blur(12px);
+  opacity: .6;
 }
 
 .wed-plan {
@@ -149,25 +151,29 @@ button:focus {
 
 .container {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   width: 100vw;
-  gap: 5px;
-  max-height: 800px;
+  gap: 15px;
+  /* height: 800px; */
   border-bottom: 4px solid var(--third-color);
-
+  padding: 10px;
   overflow: scroll;
   position: relative;
 }
 
 .box {
-  border: 10px solid blue;
+border: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .theGuest {
   width: 90%;
   padding: 0;
   margin: 0 auto;
-  display: flex;
+  display: inline-flex;
   justify-content: space-evenly;
   gap: 20px;
   align-items: center;
@@ -178,7 +184,7 @@ button:focus {
 
 .theGuest p {
   color: var(--last-color);
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .name-container {
@@ -188,7 +194,7 @@ button:focus {
   align-items: center;
 }
 .name-container p {
-  font-size: 25px;
+  /* font-size: 25px; */
   color: var(--last-color);
 }
 

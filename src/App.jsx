@@ -63,7 +63,7 @@ function App() {
     setGuestList((prev) => [...prev, guestObject]);
     setThetotal((prevTotal) => prevTotal + 1);
 
-    // Reset input fields
+ 
     setGuestName("");
     setOpenSearch(false)
     setOpenTable(false)
@@ -91,7 +91,8 @@ function App() {
     const deleteEl = guestList.filter((prev) => prev.id !== id);
     setGuestList(deleteEl);
     setThetotal((prev) => prev - 1);
-    console.log(id);
+    setPresent((prev) => prev - 1);
+    setOpenSearch(false)
   };
 
   const clearLocalStorage = () => {
