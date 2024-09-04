@@ -1,7 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { IoAddSharp, IoSearch, IoCloseSharp } from "react-icons/io5";
-import pic from "./assets/pic02.png";
-import { MdDelete } from "react-icons/md";
+import {useEffect,useState,useRef} from "react";
+import Header from "./components/Hearder";
+import InputForm from "./components/InputForm";
+import GuestList from "./components/GuestList";
+import ButtonGroup from "./components/ButtonGroup";
+import FilterTable from "./components/FilterTable";
+import SearchResults from "./components/SearchResults";
 import "./App.css";
 
 function App() {
@@ -12,7 +15,7 @@ function App() {
 
   const [Thetotal, setThetotal] = useState(() => {
     const storeTotal = localStorage.getItem("total");
-    return storeTotal ? JSON.parse(storeTotal) : 0;
+    return storeTotal !== null ? Number(storeTotal) : 0;
   });
 
   const [present, setPresent] = useState(() => {
@@ -22,22 +25,18 @@ function App() {
 
   const [openTable, setOpenTable] = useState(false);
   const [filterTable, setFilterTable] = useState(null);
+  const [guestName, setGuestName] = useState("");
+  const [openSearch, setOpenSearch] = useState(false);
+  const [search, setSearch] = useState([]);
+
+  const tableRef = useRef(null);
+  const selectRef = useRef();
 
   useEffect(() => {
     localStorage.setItem("storing", JSON.stringify(guestList));
     localStorage.setItem("total", JSON.stringify(Thetotal));
     localStorage.setItem("thePresent", JSON.stringify(present));
   }, [guestList, Thetotal, present]);
-
-  const [guestName, setGuestName] = useState("");
-  const tableRef = useRef(null);
-  const selectRef = useRef();
-  const [openSearch, setOpenSearch] = useState(false);
-  const [search, setSearch] = useState([]);
-
-  const handleInput = (e) => {
-    setGuestName(e.target.value);
-  };
 
   const addGuest = () => {
     const generateId = Math.random().toString(36).substring(2, 20);
@@ -50,7 +49,7 @@ function App() {
       tableNumber <= 0
     ) {
       alert("Les données ne sont pas bonnes");
-      return setGuestList((prev) => [...prev]);
+      return;
     }
 
     const guestObject = {
@@ -75,7 +74,7 @@ function App() {
       const updatedGuests = prev.map((guest) => {
         if (guest.id === id) {
           const newChecked = !guest.checked;
-          presentCounter += newChecked ? +1 : -1;
+          presentCounter += newChecked ? 1 : -1;
 
           return { ...guest, checked: newChecked };
         }
@@ -89,9 +88,12 @@ function App() {
   const handleDelete = (id) => {
     const deleteEl = guestList.filter((prev) => prev.id !== id);
     setGuestList(deleteEl);
-    setThetotal((prev) => prev - 1);
-    setPresent((prev) => prev - 1);
+    setThetotal((prev) => (prev >= 1 ? prev - 1 : 0));
+    setPresent((prev) => (prev >= 1 ? prev - 1 : 0));
     setOpenSearch(false);
+    setOpenTable(false);
+    localStorage.removeItem("total");
+    localStorage.removeItem("thePresent");
   };
 
   const clearLocalStorage = () => {
@@ -109,6 +111,7 @@ function App() {
     if (tableSelection === "0") {
       setOpenTable(false);
       setFilterTable(guestList);
+      return;
     }
     const groupByTable = guestList.filter(
       (guest) => guest.table === tableSelection
@@ -128,168 +131,46 @@ function App() {
     }
 
     setGuestName("");
-    console.log("kirikou");
-  };
-
-  const handleCloseEl = () => {
-    setOpenTable(false);
-    selectRef.current.value = "0";
-  };
-
-  const searchCloseEl = () => {
-    setOpenSearch(false);
-    setGuestName("");
   };
 
   return (
     <div className="main-container">
-      <div className="pic-container">
-        <img src={pic} alt="" />
-      </div>
+      <Header />
       <h1 className="wed-plan">Wedding Guests</h1>
-      <div className="input-container">
-        <IoSearch type="button" className="addBtn" onClick={handleSearch} />
-        <input
-          type="text"
-          value={guestName}
-          onChange={handleInput}
-          placeholder="Enter your Guest Name"
-          className="guest-input"
-          id="name"
-        />
-        <input
-          ref={tableRef}
-          type="number"
-          className="number-input"
-          required
-          placeholder="number"
-          max={15}
-          min={1}
-        />
-        <IoAddSharp type="button" className="addBtn" onClick={addGuest} />
-      </div>
-
-      <div className="btn-container">
-        <button type="button" className="Btn">
-          total <span>{Thetotal}</span>
-        </button>
-        <button type="button" className="Btn">
-          present <span>{present}</span>
-        </button>
-        <h3 type="button" onClick={clearLocalStorage} className="">
-          clear
-        </h3>
-      </div>
-
-      <div className="filter-container">
-        <p>La liste des invités</p>
-
-        <select
-          name="table"
-          id="table-no"
-          ref={selectRef}
-          onChange={() => handleSelect()}
-          onClick={handleSelect}
-        >
-          <option value="0">All Tables</option>
-          <option value="1">Table 01</option>
-          <option value="2">Table 02</option>
-          <option value="3">Table 03</option>
-          <option value="4">Table 04</option>
-          <option value="5">Table 05</option>
-          <option value="6">Table 06</option>
-          <option value="7">Table 07</option>
-          <option value="8">Table 08</option>
-          <option value="9">Table 09</option>
-          <option value="10">Table 10</option>
-          <option value="11">Table 11</option>
-          <option value="12">Table 12</option>
-          <option value="13">Table 13</option>
-          <option value="14">Table 14</option>
-          <option value="15">Table 15</option>
-        </select>
-      </div>
-
-      <div className="container">
-        {guestList.map((guest) => (
-          <div key={guest.id} className="theGuest">
-            <div className="name-container">
-              <input
-                type="checkbox"
-                className="box"
-                checked={guest.checked}
-                onChange={() => toggleCheck(guest.id)}
-              />
-              <p>{guest.theGuest}</p>
-            </div>
-            <p>Table: {guest.table}</p>
-            <MdDelete
-              className="deletBtn"
-              onClick={() => {
-                handleDelete(guest.id);
-              }}
-            />
-          </div>
-        ))}
-
-        {openTable && (
-          <div className="filter-result">
-            <div className="closeBtn-container">
-              Guest on the Table 0{selectRef.current.value}
-              <IoCloseSharp className="closeBtn" onClick={handleCloseEl} />
-            </div>
-            {filterTable.map((guest) => (
-              <div key={guest.id} className="theGuest">
-                <div className="name-container">
-                  <input
-                    type="checkbox"
-                    className="box"
-                    checked={guest.checked}
-                    onChange={() => toggleCheck(guest.id)}
-                  />
-                  <p>{guest.theGuest}</p>
-                </div>
-                <p>Table: {guest.table}</p>
-                <MdDelete
-                  className="deletBtn"
-                  onClick={() => {
-                    handleDelete(guest.id);
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {openSearch && (
-          <div className="filter-result">
-            <div className="closeBtn-container">
-              Guest found
-              <IoCloseSharp className="closeBtn" onClick={searchCloseEl} />
-            </div>
-            {search.map((guest) => (
-              <div key={guest.id} className="theGuest">
-                <div className="name-container">
-                  <input
-                    type="checkbox"
-                    className="box"
-                    checked={guest.checked}
-                    onChange={() => toggleCheck(guest.id)}
-                  />
-                  <p>{guest.theGuest}</p>
-                </div>
-                <p>Table: {guest.table}</p>
-                <MdDelete
-                  className="deletBtn"
-                  onClick={() => {
-                    handleDelete(guest.id);
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <InputForm
+        guestName={guestName}
+        handleInput={(e) => setGuestName(e.target.value)}
+        addGuest={addGuest}
+        tableRef={tableRef}
+        handleSearch={handleSearch}
+      />
+      <ButtonGroup
+        Thetotal={Thetotal}
+        present={present}
+        clearLocalStorage={clearLocalStorage}
+      />
+      <FilterTable
+        guestList={guestList}
+        selectRef={selectRef}
+        handleSelect={handleSelect}
+        openTable={openTable}
+        filterTable={filterTable}
+        toggleCheck={toggleCheck}
+        handleDelete={handleDelete}
+        handleCloseEl={() => setOpenTable(false)}
+      />
+      <SearchResults
+        openSearch={openSearch}
+        search={search}
+        toggleCheck={toggleCheck}
+        handleDelete={handleDelete}
+        searchCloseEl={() => setOpenSearch(false)}
+      />
+      <GuestList
+        guestList={guestList}
+        toggleCheck={toggleCheck}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
