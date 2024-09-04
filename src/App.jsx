@@ -45,7 +45,7 @@ function App() {
 
     if (
       !guestName.trim() ||
-      tableNumber > 7 ||
+      tableNumber > 15 ||
       tableNumber.trim() === "" ||
       tableNumber <= 0
     ) {
@@ -164,7 +164,7 @@ function App() {
           className="number-input"
           required
           placeholder="number"
-          max={7}
+          max={15}
           min={1}
         />
         <IoAddSharp type="button" className="addBtn" onClick={addGuest} />
