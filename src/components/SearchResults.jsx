@@ -16,7 +16,7 @@ function SearchResults({
           Guest found
           <IoCloseSharp className="closeBtn" onClick={searchCloseEl} />
         </div>
-        {search.map((guest) => (
+        {search&&search.map((guest) => (
           <div key={guest.id} className="theGuest">
             <div className="name-container">
               <input
@@ -25,9 +25,9 @@ function SearchResults({
                 checked={guest.checked}
                 onChange={() => toggleCheck(guest.id)}
               />
-              <p>{guest.theGuest}</p>
+              <p>{guest.name}</p>
             </div>
-            <p>Table: {guest.table}</p>
+            <p>Table: {guest.tableNumber}</p>
             <MdDelete
               className="deletBtn"
               onClick={() => handleDelete(guest.id)}

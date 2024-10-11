@@ -5,7 +5,7 @@ function Header() {
   return (
     <div className="pic-container">
    
-      <img src={pic} alt="Wedding" />
+      {/* <img src={pic} alt="Wedding" /> */}
       
     </div>
   );

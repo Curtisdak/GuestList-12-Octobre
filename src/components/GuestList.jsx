@@ -1,10 +1,10 @@
-import React from "react";
+
 import { MdDelete } from "react-icons/md";
 
-function GuestList({ guestList, toggleCheck, handleDelete }) {
+function GuestList({ deactived, guestList, toggleCheck, handleDelete }) {
   return (
     <div className="container">
-      {guestList.map((guest) => (
+      {guestList && guestList.map((guest) => (
         <div key={guest.id} className="theGuest">
           <div className="name-container">
             <input
@@ -13,13 +13,13 @@ function GuestList({ guestList, toggleCheck, handleDelete }) {
               checked={guest.checked}
               onChange={() => toggleCheck(guest.id)}
             />
-            <p>{guest.theGuest}</p>
+            <p className="guestNames">{guest.name}</p>
           </div>
-          <p>Table: {guest.table}</p>
-          <MdDelete
+          <p>Table: {guest.tableNumber}</p>
+          {!deactived&&<MdDelete
             className="deletBtn"
             onClick={() => handleDelete(guest.id)}
-          />
+          />}
         </div>
       ))}
     </div>

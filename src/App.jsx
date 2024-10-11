@@ -1,21 +1,22 @@
-import {useEffect,useState,useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "./components/Hearder";
 import InputForm from "./components/InputForm";
 import GuestList from "./components/GuestList";
 import ButtonGroup from "./components/ButtonGroup";
 import FilterTable from "./components/FilterTable";
 import SearchResults from "./components/SearchResults";
+import allGuest from "./List"; // Importing the allGuest array
 import "./App.css";
 
 function App() {
   const [guestList, setGuestList] = useState(() => {
     const storedGuests = localStorage.getItem("storing");
-    return storedGuests ? JSON.parse(storedGuests) : [];
+    return storedGuests ? JSON.parse(storedGuests) : allGuest;
   });
 
   const [Thetotal, setThetotal] = useState(() => {
     const storeTotal = localStorage.getItem("total");
-    return storeTotal !== null ? Number(storeTotal) : 0;
+    return storeTotal !== null ? Number(storeTotal) : allGuest.length; 
   });
 
   const [present, setPresent] = useState(() => {
@@ -24,7 +25,7 @@ function App() {
   });
 
   const [openTable, setOpenTable] = useState(false);
-  const [filterTable, setFilterTable] = useState(null);
+  const [filterTable, setFilterTable] = useState([]);
   const [guestName, setGuestName] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
   const [search, setSearch] = useState([]);
@@ -44,7 +45,7 @@ function App() {
 
     if (
       !guestName.trim() ||
-      tableNumber > 15 ||
+      tableNumber > 18 || // Adjust the max table number
       tableNumber.trim() === "" ||
       tableNumber <= 0
     ) {
@@ -54,7 +55,7 @@ function App() {
 
     const guestObject = {
       id: generateId,
-      theGuest: guestName,
+      name: guestName,
       table: tableNumber,
       checked: false,
     };
@@ -107,25 +108,27 @@ function App() {
   };
 
   const handleSelect = () => {
-    const tableSelection = selectRef.current.value;
-    if (tableSelection === "0") {
+    const tableSelection = Number(selectRef.current.value)
+  
+    if (tableSelection === "all tables") {
       setOpenTable(false);
       setFilterTable(guestList);
-      return;
+    } else {
+      const groupByTable = guestList.filter(
+        (guest) => (guest.tableNumber === tableSelection )
+      );
+      setFilterTable(groupByTable);
+      setOpenTable(true);
+      console.log(groupByTable)
     }
-    const groupByTable = guestList.filter(
-      (guest) => guest.table === tableSelection
-    );
-
-    setFilterTable(groupByTable);
-    setOpenTable(true);
   };
+  
 
   const handleSearch = () => {
     if (guestName.trim() !== "") {
       setOpenSearch(true);
       const searchGuest = guestList.filter((guest) =>
-        guest.theGuest.toLowerCase().includes(guestName.toLowerCase())
+        guest.name.toLowerCase().includes(guestName.toLowerCase())
       );
       setSearch(searchGuest);
     }
@@ -133,16 +136,19 @@ function App() {
     setGuestName("");
   };
 
+  const deactived =true
+
   return (
     <div className="main-container">
-      <Header />
       <h1 className="wed-plan">Wedding Guests</h1>
+      <Header />
       <InputForm
         guestName={guestName}
         handleInput={(e) => setGuestName(e.target.value)}
         addGuest={addGuest}
         tableRef={tableRef}
         handleSearch={handleSearch}
+        deactived={deactived}
       />
       <ButtonGroup
         Thetotal={Thetotal}
@@ -170,6 +176,7 @@ function App() {
         guestList={guestList}
         toggleCheck={toggleCheck}
         handleDelete={handleDelete}
+        deactived={deactived}
       />
     </div>
   );
