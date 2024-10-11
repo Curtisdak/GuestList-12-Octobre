@@ -164,6 +164,7 @@ function App() {
         toggleCheck={toggleCheck}
         handleDelete={handleDelete}
         handleCloseEl={() => setOpenTable(false)}
+        deactived={deactived}
       />
       <SearchResults
         openSearch={openSearch}
@@ -171,6 +172,7 @@ function App() {
         toggleCheck={toggleCheck}
         handleDelete={handleDelete}
         searchCloseEl={() => setOpenSearch(false)}
+        deactived={deactived}
       />
       <GuestList
         guestList={guestList}

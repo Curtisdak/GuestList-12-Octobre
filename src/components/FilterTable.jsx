@@ -12,6 +12,7 @@ function FilterTable({
   toggleCheck,
   handleDelete,
   handleCloseEl,
+  deactived,
 }) {
   return (
     <>
@@ -51,10 +52,10 @@ function FilterTable({
                   <p>{guest.name}</p>
                 </div>
                 <p>Table: {guest.tableNumber}</p>
-                <MdDelete
+               {!deactived && <MdDelete
                   className="deletBtn"
                   onClick={() => handleDelete(guest.id)}
-                />
+                /> }
               </div>
             ))}
         </div>

@@ -8,6 +8,8 @@ function SearchResults({
   toggleCheck,
   handleDelete,
   searchCloseEl,
+  deactived,
+   }
 }) {
   return (
     openSearch && (
@@ -28,10 +30,10 @@ function SearchResults({
               <p>{guest.name}</p>
             </div>
             <p>Table: {guest.tableNumber}</p>
-            <MdDelete
+            {!deactived &&<MdDelete
               className="deletBtn"
               onClick={() => handleDelete(guest.id)}
-            />
+            />}
           </div>
         ))}
       </div>
