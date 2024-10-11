@@ -1,7 +1,7 @@
 
 import { MdDelete } from "react-icons/md";
 
-function GuestList({ deactived, guestList, toggleCheck, handleDelete }) {
+function GuestList({ activated, guestList, toggleCheck, handleDelete }) {
   return (
     <div className="container">
       {guestList && guestList.map((guest) => (
@@ -16,7 +16,7 @@ function GuestList({ deactived, guestList, toggleCheck, handleDelete }) {
             <p className="guestNames">{guest.name}</p>
           </div>
           <p>Table: {guest.tableNumber}</p>
-          {!deactived&&<MdDelete
+          {activated&&<MdDelete
             className="deletBtn"
             onClick={() => handleDelete(guest.id)}
           />}

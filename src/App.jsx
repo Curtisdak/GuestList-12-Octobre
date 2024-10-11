@@ -136,7 +136,7 @@ function App() {
     setGuestName("");
   };
 
-  const deactived =true
+  const activated =false
 
   return (
     <div className="main-container">
@@ -148,7 +148,7 @@ function App() {
         addGuest={addGuest}
         tableRef={tableRef}
         handleSearch={handleSearch}
-        deactived={deactived}
+        activated={activated}
       />
       <ButtonGroup
         Thetotal={Thetotal}
@@ -164,7 +164,7 @@ function App() {
         toggleCheck={toggleCheck}
         handleDelete={handleDelete}
         handleCloseEl={() => setOpenTable(false)}
-        deactived={deactived}
+        activated={activated}
       />
       <SearchResults
         openSearch={openSearch}
@@ -172,13 +172,13 @@ function App() {
         toggleCheck={toggleCheck}
         handleDelete={handleDelete}
         searchCloseEl={() => setOpenSearch(false)}
-        deactived={deactived}
+        activated={activated}
       />
       <GuestList
         guestList={guestList}
         toggleCheck={toggleCheck}
         handleDelete={handleDelete}
-        deactived={deactived}
+        activated={activated}
       />
     </div>
   );

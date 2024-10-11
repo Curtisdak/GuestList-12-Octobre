@@ -1,7 +1,7 @@
-import React from "react";
+
 import { IoAddSharp, IoSearch } from "react-icons/io5";
 
-function InputForm({ deactived, guestName, handleInput, addGuest, tableRef, handleSearch }) {
+function InputForm({ activated, guestName, handleInput, addGuest, tableRef, handleSearch }) {
   return (
     <div className="input-container">
      
@@ -13,7 +13,7 @@ function InputForm({ deactived, guestName, handleInput, addGuest, tableRef, hand
         className="guest-input"
         id="name"
       /> <IoSearch type="button" className="addBtn" onClick={handleSearch} />
-     {!deactived && <input
+     {activated && <input
         ref={tableRef}
         type="number"
         className="number-input"
@@ -22,7 +22,7 @@ function InputForm({ deactived, guestName, handleInput, addGuest, tableRef, hand
         max={18}
         min={1}
       /> }
-      { !deactived&&<IoAddSharp type="button" className="addBtn" onClick={addGuest} /> }
+      {activated&& <IoAddSharp type="button" className="addBtn" onClick={addGuest} /> }
     </div>
   );
 }
